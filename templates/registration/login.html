@@ -1,0 +1,37 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <section>
+      <div class="page-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+              <div class="card card-plain mt-6">
+                <div class="card-header pb-0 text-left bg-transparent">
+                  <h3 class="font-weight-bolder text-info text-gradient">Welcome!</h3>
+                  <p class="mb-2">Enter your email and password to sign in</p>
+                </div>
+                <div class="card-body">
+                  {% include 'includes/user_form.html' %}
+
+                  <div class="d-flex align-items-center justify-content-between mt-2">
+                    <div>
+                      <a class="text-sm text-primary" href="">Forgot Password?</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                  <p class="mb-4 mt-2 text-sm mx-auto">
+                    Don't have an account?
+                    <a href="" class="text-info text-gradient font-weight-bold">Sign up</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
