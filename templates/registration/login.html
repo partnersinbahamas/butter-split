@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-
     <section>
       <div class="page-header">
         <div class="container">
@@ -28,6 +27,14 @@
                     <a href="" class="text-info text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </div>
+                <button class="btn">
+                  <a
+                      href="{% url 'service:index' %}"
+                      class="text-info text-gradient font-weight-bold text-center"
+                  >
+                    Sign in later
+                  </a>
+                </button>
               </div>
             </div>
           </div>
