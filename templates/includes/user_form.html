@@ -3,18 +3,27 @@
 <form role="form" method="post" novalidate>
   {% csrf_token %}
 
-  {% if form.non_field_errors %}
-    {% for error in form.non_field_errors %}
-      <span class="d-block text-danger mb-3">{{ error }}</span>
-    {% endfor %}
-  {% endif %}
-
   {% for field in form %}
     <label>{{ field.label }}</label>
-    <div class="mb-3">
+
+    <div class="mb-2">
       {{ field|add_class:"form-control" }}
+
+      {% for error in field.errors %}
+        <p class="d-block text-danger mb-1 error">
+          {{ error }}
+        </p>
+      {% endfor %}
     </div>
   {% endfor %}
 
-  <button type="submit" class="btn bg-gradient-info w-100 mb-0">Sign in</button>
+  <button type="submit" class="btn bg-gradient-info w-100 mb-0">
+    {% if request.resolver_match.url_name == 'login' %}
+      Sign in
+    {% endif %}
+
+    {% if request.resolver_match.url_name == 'registrate' %}
+      Sign up
+    {% endif %}
+  </button>
 </form>

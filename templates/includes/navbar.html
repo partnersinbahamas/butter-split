@@ -2,16 +2,20 @@
 
 <nav class="navbar navbar-expand-lg top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
   <div class="container-fluid pe-0 col-sm-8 col-xl-5">
-    <a class="logo">
-      <img
+    <div class="logo">
+      <a href="{% url 'service:index' %}">
+        <img
           class="logo-image"
           src="{% static 'images/butter-knife-icon.png' %}"
           alt="butter/split logo"
-      >
-      <h4 class="font-weight-bolder text-info text-gradient logo-head">
-        butter/split
-      </h4>
-    </a>
+        >
+      </a>
+      <a href="{% url 'service:index' %}">
+        <h4 class="font-weight-bolder text-info text-gradient logo-head">
+          butter/split
+        </h4>
+      </a>
+    </div>
 
     {% if request.user.is_authenticated %}
       <div class="logout-form-section">
