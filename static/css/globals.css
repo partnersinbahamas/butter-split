@@ -24433,6 +24433,14 @@ html {
   background-image: linear-gradient(310deg, #fff 0%, #fff 100%);
 }
 
+.main-content {
+  margin-top: 25px !important;
+  height: calc(100vh - 125px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .main-content,
 .sidenav {
   transition: all 0.2s ease-in-out;
