@@ -1,0 +1,19 @@
+.event-page {
+  max-width: 500px !important;
+  border-radius: 10px;
+  padding: 0 !important;
+
+  background-color:  #e4f3ff;
+}
+
+.event-card {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  img {
+    width: 60px;
+    height: 65px;
+  }
+}
