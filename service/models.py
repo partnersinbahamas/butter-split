@@ -55,6 +55,9 @@ class Event(models.Model):
     )
     owner = models.ForeignKey(
         get_user_model(),
+        null=True,
+        blank=True,
+        default=None,
         on_delete=models.CASCADE,
         related_name='events'
     )
