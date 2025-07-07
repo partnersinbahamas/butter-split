@@ -25,5 +25,9 @@
     {% if request.resolver_match.url_name == 'registrate' %}
       Sign up
     {% endif %}
+
+    {% if request.resolver_match.url_name == 'event-create' %}
+      Create
+    {% endif %}
   </button>
 </form>

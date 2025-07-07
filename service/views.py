@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from .forms import UserCreateForm
+from .forms import UserCreateForm, EventForm
+from .models import Event
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -28,3 +29,24 @@ class UserCreateView(CreateView):
             login(self.request, user)
 
         return redirect(self.get_success_url())
+
+
+class EventCreateView(CreateView):
+    model = Event
+    template_name = 'pages/event_create.html'
+    form_class = EventForm
+    success_url = reverse_lazy('service:index')
+
+    def get_form_kwargs(self):
+        kwargs = super(EventCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.owner = self.request.user
+        else:
+            form.instance.owner = None
+
+        self.object = form.save()
+        return super().form_valid(form)
