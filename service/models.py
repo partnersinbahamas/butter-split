@@ -64,6 +64,7 @@ class Event(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+    session_id = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Event'
