@@ -38,12 +38,6 @@ class Participant(models.Model):
     class Meta:
         verbose_name = 'Participant'
         verbose_name_plural = 'Participants'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['name', 'creator'],
-                name='unique_creator_participant_name'
-            )
-        ]
 
 
 class Event(models.Model):
