@@ -17,3 +17,39 @@
     height: 65px;
   }
 }
+
+.event-chips {
+  padding: 0;
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  li {
+    padding: 5px;
+    list-style: none;
+    width: max-content;
+    height: min-content;
+
+    background: linear-gradient(310deg, rgba(79, 70, 229, 0.25), rgba(4.8, 145.6, 169.6, 0.25));
+    border-radius: 10px;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      text-decoration: none;
+
+      img {
+        width: 18px;
+        height: 18px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
