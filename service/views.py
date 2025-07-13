@@ -7,9 +7,20 @@ from django.views.generic import CreateView
 from .forms import UserCreateForm, EventForm
 from .models import Event
 
+MAX_EVENT_CHIPS = 3
 
 def index(request: HttpRequest) -> HttpResponse:
-    return render(request, 'pages/index.html')
+    if request.user.is_authenticated:
+        event_chips = Event.objects.filter(owner=request.user)
+    else:
+        event_chips = Event.objects.filter(owner=None, session_id=request.session.session_key)
+
+    context = {
+        'event_chips': event_chips[:MAX_EVENT_CHIPS],
+        'max_event_chips': MAX_EVENT_CHIPS,
+    }
+
+    return render(request, 'pages/index.html', context=context)
 
 
 class UserCreateView(CreateView):
@@ -40,11 +51,13 @@ class EventCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super(EventCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['session_key'] = self.request.session.session_key
         return kwargs
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.owner = self.request.user
+            form.instance.session_id = self.request.session.session_key
         else:
             form.instance.owner = None
 
