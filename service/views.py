@@ -48,5 +48,9 @@ class EventCreateView(CreateView):
         else:
             form.instance.owner = None
 
+            if not self.request.session.session_key:
+                self.request.session.save()
+            form.instance.session_id = self.request.session.session_key
+
         self.object = form.save()
         return super().form_valid(form)
