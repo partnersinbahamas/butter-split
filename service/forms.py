@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Event, Participant, Currency
+from django.core.exceptions import ValidationError
 
 
 class UserCreateForm(UserCreationForm):
@@ -31,6 +32,7 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        self.session_key = kwargs.pop('session_key', None)
         super(EventForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
@@ -51,3 +53,17 @@ class EventForm(forms.ModelForm):
             event.participants.add(new_participant)
 
         return event
+
+    def clean(self):
+        cleaned_data = super(EventForm, self).clean()
+        name = cleaned_data.get('name')
+
+        if self.user and self.user.is_authenticated:
+            queryset = Event.objects.filter(name=name, owner=self.user)
+        else:
+            queryset = Event.objects.filter(name=name, session_id=self.session_key, owner=None)
+
+        if queryset.exists():
+            raise ValidationError({'name': 'Event with this name already exists'})
+
+        return cleaned_data

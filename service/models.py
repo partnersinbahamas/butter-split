@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Q
 
 
 class User(AbstractUser):
@@ -46,7 +47,7 @@ class Participant(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     participants = models.ManyToManyField(Participant, related_name='events')
     currency = models.ForeignKey(
         Currency,
@@ -69,6 +70,18 @@ class Event(models.Model):
     class Meta:
         verbose_name = 'Event'
         verbose_name_plural = 'Events'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'owner'],
+                name='unique_event_name_user',
+                condition=Q(owner__isnull=False)
+            ),
+            models.UniqueConstraint(
+                fields=['name', 'session_id'],
+                name='unique_event_name_session',
+                condition=Q(owner__isnull=True)
+            ),
+        ]
 
     def __str__(self):
         return self.name
