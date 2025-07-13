@@ -13,6 +13,25 @@
           <div class="button-base"></div>
         </button>
       </a>
+      
+      {% if event_chips %}
+        <ul class="event-chips">
+          {% for event_chip in event_chips %}
+            <li>
+              <a href="">
+                <img
+                    class="event-chip-icon"
+                    src="{% static 'images/event-icon.png' %}"
+                    alt="Event icon"
+                >
+                <p class="text-info text-gradient">
+                  {{ event_chip.name }}
+                </p>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </div>
   </section>
 {% endblock %}
