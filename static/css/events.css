@@ -27,7 +27,7 @@
   gap: 5px;
 
   li {
-    padding: 5px;
+    padding: 2px 5px;
     list-style: none;
     width: max-content;
     height: min-content;

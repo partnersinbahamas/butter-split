@@ -200,6 +200,19 @@ body {
   background-color: #cae8ff !important;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background: url("/static/images/party-bgc-icon.png") no-repeat center;
+  background-size: cover;
+
+  filter: blur(20px);
+  z-index: -1;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -5420,7 +5433,7 @@ fieldset:disabled .btn {
 }
 
 .card-header {
-  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  /*padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);*/
   margin-bottom: 0;
   color: var(--bs-card-cap-color);
   background-color: var(--bs-card-cap-bg);
@@ -22179,7 +22192,8 @@ fieldset:disabled .btn {
 }
 
 .card.card-plain {
-  background-color: transparent;
+  background-color: #fff;
+  border-radius: 10px;
   box-shadow: none;
   border: none;
 }

@@ -7,7 +7,7 @@
       <a href="{% url 'service:event-create' %}">
         <button type="button" class="button">
           <div class="button-top">
-            <img src="{% static 'images/butter.png' %}" alt="Butter icon">
+            <img src="{% static 'images/event-icon.png' %}" alt="Butter icon">
           </div>
           <div class="button-bottom"></div>
           <div class="button-base"></div>
@@ -25,7 +25,7 @@
                     alt="Event icon"
                 >
                 <p class="text-info text-gradient">
-                  {{ event_chip.name }}
+                  {{ event_chip.name|truncatechars_html:15 }}
                 </p>
               </a>
             </li>
