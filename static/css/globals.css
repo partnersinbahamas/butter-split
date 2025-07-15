@@ -22183,10 +22183,6 @@ fieldset:disabled .btn {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-.card .card-header {
-  padding: 1.5rem;
-}
-
 .card .card-body {
   padding: 1rem;
 }
@@ -22194,6 +22190,7 @@ fieldset:disabled .btn {
 .card.card-plain {
   background-color: #fff;
   border-radius: 10px;
+  padding: 1rem;
   box-shadow: none;
   border: none;
 }
