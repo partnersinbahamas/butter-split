@@ -200,6 +200,19 @@ body {
   background-color: #cae8ff !important;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background: url("/static/images/party-bgc-icon.png") no-repeat center;
+  background-size: cover;
+
+  filter: blur(20px);
+  z-index: -1;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -5420,7 +5433,7 @@ fieldset:disabled .btn {
 }
 
 .card-header {
-  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  /*padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);*/
   margin-bottom: 0;
   color: var(--bs-card-cap-color);
   background-color: var(--bs-card-cap-bg);
@@ -22179,7 +22192,8 @@ fieldset:disabled .btn {
 }
 
 .card.card-plain {
-  background-color: transparent;
+  background-color: #fff;
+  border-radius: 10px;
   box-shadow: none;
   border: none;
 }
@@ -22694,7 +22708,6 @@ fieldset:disabled .btn {
   align-items: center;
   background-size: cover;
   background-position: 50%;
-  min-height: calc(100vh - 50px);
 }
 
 .page-header .container {
@@ -24433,9 +24446,12 @@ html {
   background-image: linear-gradient(310deg, #fff 0%, #fff 100%);
 }
 
-.main-content,
-.sidenav {
-  transition: all 0.2s ease-in-out;
+.main-content {
+  margin-top: 25px !important;
+  height: calc(100vh - 125px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidenav {
@@ -27875,3 +27891,42 @@ pre[class*=language-] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+/* Select2 styles */
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background-color:  #e4f3ff !important;
+  border: 1px solid #d2d6da !important;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 0.5rem !important;
+  /*width: 200px;*/
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered,
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  line-height: 1.5;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 100%;
+  right: 0.75rem;
+  width: 1.5rem;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0.25);
+  border-color: #ced4da;
+  outline: none;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #cae8ff !important;
+}
+
+#select2-id_participants-results {
+  display: none !important;
+}

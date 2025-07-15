@@ -8,11 +8,14 @@
       </header>
     {% endblock %}
 
-    <main class="main-content mt-0">
+    <main class="main-content">
       {% block content %}
       {% endblock %}
     </main>
 
     {% include 'includes/footer.html' %}
+
+  {% block script %}
+  {% endblock %}
   </body>
 </html>
