@@ -22193,6 +22193,12 @@ fieldset:disabled .btn {
   padding: 1rem;
   box-shadow: none;
   border: none;
+
+  @media (max-width: 380px) {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 1rem 0.25rem;
+  }
 }
 
 .card .card-footer {
@@ -27889,6 +27895,11 @@ pre[class*=language-] {
 
 /*# sourceMappingURL=dashboard-free.css.map */
 /* Select2 styles */
+
+.select2 {
+  width: 100% !important;
+}
+
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
   background-color:  #e4f3ff !important;
@@ -27899,7 +27910,6 @@ pre[class*=language-] {
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 0.5rem !important;
-  /*width: 200px;*/
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered,
