@@ -36,7 +36,7 @@
   margin: 0;
   font-size: 12px;
 
-    @media (max-width: 580px) {
+  @media (max-width: 580px) {
     font-size: 10px;
   }
 }
