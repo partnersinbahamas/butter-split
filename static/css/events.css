@@ -1,5 +1,6 @@
 .event-page {
   max-width: 500px !important;
+.event-page-container.event-page-container {
   border-radius: 10px;
   padding: 0 !important;
 
