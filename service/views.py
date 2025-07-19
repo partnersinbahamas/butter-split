@@ -57,7 +57,7 @@ class EventCreateView(CreateView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.owner = self.request.user
-            form.instance.session_id = self.request.session.session_key
+            form.instance.session_id = None
         else:
             form.instance.owner = None
 
