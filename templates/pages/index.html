@@ -30,6 +30,16 @@
               </a>
             </li>
           {% endfor %}
+
+          {% if is_max_events_reached %}
+            <li>
+              <a href="{% url 'service:event-list' %}">
+                <p class="text-info text-gradient">
+                  ...
+                </p>
+              </a>
+            </li>
+          {% endif %}
         </ul>
       {% endif %}
     </div>
