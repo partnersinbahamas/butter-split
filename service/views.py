@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model, login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 from .forms import UserCreateForm, EventForm
 from .models import Event
@@ -18,6 +18,7 @@ def index(request: HttpRequest) -> HttpResponse:
     context = {
         'event_chips': event_chips[:MAX_EVENT_CHIPS],
         'max_event_chips': MAX_EVENT_CHIPS,
+        'is_max_events_reached': event_chips.count() > MAX_EVENT_CHIPS,
     }
 
     return render(request, 'pages/index.html', context=context)
@@ -67,3 +68,21 @@ class EventCreateView(CreateView):
 
         self.object = form.save()
         return super().form_valid(form)
+
+
+class EventListView(ListView):
+    model = Event
+    template_name = 'pages/event_list.html'
+    context_object_name = 'event_list'
+
+    def get_queryset(self):
+        queryset = Event.objects.filter(
+            owner=None,
+            session_id=self.request.session.session_key
+        )
+
+        if self.request.user and self.request.user.is_authenticated:
+            queryset = Event.objects.filter(owner=self.request.user)
+
+        return queryset
+
