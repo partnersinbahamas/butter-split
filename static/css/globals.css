@@ -24450,7 +24450,7 @@ html {
 }
 
 .main-content {
-  margin-top: 25px !important;
+  margin-top: 100px !important;
   height: calc(100vh - 125px);
   display: flex;
   align-items: center;
