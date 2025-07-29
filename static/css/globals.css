@@ -5774,9 +5774,6 @@ fieldset:disabled .btn {
   display: block;
   padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
   font-size: var(--bs-pagination-font-size);
-  color: var(--bs-pagination-color);
-  background-color: var(--bs-pagination-bg);
-  border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -24453,7 +24450,6 @@ html {
   margin-top: 100px !important;
   height: calc(100vh - 125px);
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -24994,15 +24990,24 @@ html {
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.09), 0 2px 3px -1px rgba(0, 0, 0, 0.07);
 }
 
+.page-link {
+  background: linear-gradient(310deg, rgba(79, 70, 229, 0.25), rgba(4.8, 145.6, 169.6, 0.05)) !important;
+}
+
+.page-link-selected {
+  transform: translateY(-10px);
+}
+
 .page-item .page-link,
 .page-item span {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #71717a;
+  color: #fff;
+  border-color: #fff;
   padding: 0;
   margin: 0 3px;
-  border-radius: 50% !important;
+  border-radius: 5px !important;
   width: 36px;
   height: 36px;
   font-size: 0.875rem;

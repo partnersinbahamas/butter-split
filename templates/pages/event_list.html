@@ -19,7 +19,7 @@
                 <a class="event-edit btn btn-link" href="">EDIT</a>
               </div>
             </div>
-            
+
             <div class="event-content">
               <img  class="participants-icon" src="{% static 'images/participants-icon.png' %}" alt="Participants icon">
               {{ event.participants.count }}
@@ -30,5 +30,7 @@
           </li>
         {% endfor %}
     </ul>
+
+    {% include 'includes/pagination.html' %}
   </section>
 {% endblock %}
