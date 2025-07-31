@@ -1,3 +1,5 @@
+from typing import Callable
+
 import pytest
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
@@ -17,8 +19,11 @@ def get_currency(db):
 
 @pytest.fixture()
 def create_events(db, get_currency):
-    def index(session_key: str = None, owner: get_user_model = None) -> QuerySet[Event]:
-        return QuerySet[[
+    def index(
+            session_key: str = None,
+            owner: get_user_model = None
+    ) -> list[Event]:
+        return [
             Event.objects.create(
                 name=f"event-{i+1}",
                 currency=get_currency,
@@ -26,14 +31,18 @@ def create_events(db, get_currency):
                 owner=owner
             )
             for i in range(4)
-        ]]
+        ]
 
     return index
 
 
 @pytest.mark.django_db
 class TestPublicIndexView:
-    def test_index_view_with_sesstion_key(self, client, get_currency, create_events: QuerySet[Event]):
+    def test_index_view_with_session_key(
+            self,
+            client,
+            get_currency,
+            create_events: Callable):
         session = client.session
         session.save()
 
