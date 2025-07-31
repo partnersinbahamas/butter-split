@@ -85,5 +85,10 @@ class EventListView(ListView):
         if self.request.user and self.request.user.is_authenticated:
             queryset = Event.objects.filter(owner=self.request.user)
 
-        return queryset.order_by('-created_at')
+        return (
+            queryset
+                .order_by('-created_at')
+                .select_related('owner', 'currency')
+                .prefetch_related('participants')
+        )
 
