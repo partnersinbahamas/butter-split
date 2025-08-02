@@ -67,3 +67,12 @@ class EventForm(forms.ModelForm):
             raise ValidationError({'name': 'Event with this name already exists'})
 
         return cleaned_data
+
+
+class EventListSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': 'Search...'})
+    )
+
+

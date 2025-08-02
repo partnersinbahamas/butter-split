@@ -2861,7 +2861,7 @@ progress {
   background-color:  #e4f3ff !important;
   background-clip: padding-box;
   border: 1px solid #d2d6da;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
@@ -4903,7 +4903,7 @@ fieldset:disabled .btn {
   --bs-navbar-toggler-focus-width: 0.2rem;
   --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
   border-radius: 0.7rem;
-  position: relative;
+  position: fixed !important;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -5765,6 +5765,7 @@ fieldset:disabled .btn {
   --bs-pagination-disabled-bg: #fff;
   --bs-pagination-disabled-border-color: #d4d4d8;
   display: flex;
+  gap: 5px;
   padding-left: 0;
   list-style: none;
 }
@@ -5774,9 +5775,6 @@ fieldset:disabled .btn {
   display: block;
   padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
   font-size: var(--bs-pagination-font-size);
-  color: var(--bs-pagination-color);
-  background-color: var(--bs-pagination-bg);
-  border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -5790,6 +5788,7 @@ fieldset:disabled .btn {
   z-index: 2;
   color: var(--bs-pagination-hover-color);
   background-color: var(--bs-pagination-hover-bg);
+
   border-color: var(--bs-pagination-hover-border-color);
 }
 
@@ -24450,10 +24449,9 @@ html {
 }
 
 .main-content {
-  margin-top: 25px !important;
+  margin-top: 100px !important;
   height: calc(100vh - 125px);
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -24994,15 +24992,24 @@ html {
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.09), 0 2px 3px -1px rgba(0, 0, 0, 0.07);
 }
 
+.page-link {
+  background: linear-gradient(310deg, rgba(79, 70, 229, 0.25), rgba(4.8, 145.6, 169.6, 0.05)) !important;
+}
+
+.page-link-selected {
+  transform: translateY(-10px);
+}
+
 .page-item .page-link,
 .page-item span {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #71717a;
+  color: #fff;
+  border-color: #fff;
   padding: 0;
   margin: 0 3px;
-  border-radius: 50% !important;
+  border-radius: 5px !important;
   width: 36px;
   height: 36px;
   font-size: 0.875rem;

@@ -1,0 +1,59 @@
+{% extends '_base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+  <section class="event-list-page">
+    <div class="event-list-heading">
+      <h1 class="text-info text-gradient">Events</h1>
+      <form role="form" method="get" novalidate>
+        {% csrf_token %}
+
+        {% for field in search_form %}
+          {{ field|add_class:'form-control shadow' }}
+        {% endfor %}
+
+        <button type="submit" hidden="hidden">Search</button>
+      </form>
+    </div>
+    <ul class="event-list">
+        {% for event in event_list %}
+          <li class="event shadow">
+            <div class="event-head">
+              <div class="event-title">
+                <img class="event-icon" src="{% static 'images/event-icon.png' %}" alt="Event icon">
+                <h4>
+                  {{ event.name }}
+                </h4>
+              </div>
+
+              <div class="event-activity">
+                <a class="event-delete btn btn-link" href="">DELETE</a>
+                <a class="event-edit btn btn-link" href="">EDIT</a>
+              </div>
+            </div>
+
+            <div class="event-content">
+              <img  class="participants-icon" src="{% static 'images/participants-icon.png' %}" alt="Participants icon">
+              {{ event.participants.count }}
+            </div>
+
+            <p class="event-currency">{{ event.currency.symbol }}</p>
+            <p class="event-date">{{ event.created_at|date:"d M Y" }}</p>
+          </li>
+          {% empty %}
+          <div class="events-empty">
+            <img
+                src="{% static 'images/event-icon.png' %}"
+                width="50"
+                height="50"
+                alt="Event-icon"
+            >
+            <p class="text-info text-gradient">Events was not found.</p>
+          </div>
+        {% endfor %}
+    </ul>
+
+    {% include 'includes/pagination.html' %}
+  </section>
+{% endblock %}
