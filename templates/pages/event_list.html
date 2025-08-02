@@ -1,8 +1,21 @@
 {% extends '_base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block content %}
   <section class="event-list-page">
+    <div class="event-list-heading">
+      <h1 class="text-info text-gradient">Events</h1>
+      <form role="form" method="get" novalidate>
+        {% csrf_token %}
+
+        {% for field in search_form %}
+          {{ field|add_class:'form-control shadow' }}
+        {% endfor %}
+
+        <button type="submit" hidden="hidden">Search</button>
+      </form>
+    </div>
     <ul class="event-list">
         {% for event in event_list %}
           <li class="event shadow">

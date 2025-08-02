@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
-from .forms import UserCreateForm, EventForm
+from .forms import UserCreateForm, EventForm, EventListSearchForm
 from .models import Event
 
 MAX_EVENT_CHIPS = 3
@@ -72,11 +72,19 @@ class EventCreateView(CreateView):
 
 class EventListView(ListView):
     model = Event
+    form_class = EventListSearchForm
     template_name = 'pages/event_list.html'
     context_object_name = 'event_list'
     paginate_by = 4
 
+    def get_context_data(self, **kwargs):
+        context = super(EventListView, self).get_context_data(**kwargs)
+        context['search_form'] = EventListSearchForm(initial=self.request.GET)
+
+        return context
+
     def get_queryset(self):
+        form = EventListSearchForm(self.request.GET)
         queryset = Event.objects.filter(
             owner=None,
             session_id=self.request.session.session_key
@@ -84,6 +92,10 @@ class EventListView(ListView):
 
         if self.request.user and self.request.user.is_authenticated:
             queryset = Event.objects.filter(owner=self.request.user)
+
+
+        if form.is_valid() and form.cleaned_data.get('name'):
+            queryset = queryset.filter(name__icontains=form.cleaned_data['name'])
 
         return (
             queryset

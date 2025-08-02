@@ -83,6 +83,10 @@
 
   width: 100vw;
 }
+.event-list-heading {
+  width: 100%;
+  margin-bottom: 10px;
+}
 
 .event-list-heading {
   width: 100%;
