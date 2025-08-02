@@ -2861,7 +2861,7 @@ progress {
   background-color:  #e4f3ff !important;
   background-clip: padding-box;
   border: 1px solid #d2d6da;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
@@ -5765,6 +5765,7 @@ fieldset:disabled .btn {
   --bs-pagination-disabled-bg: #fff;
   --bs-pagination-disabled-border-color: #d4d4d8;
   display: flex;
+  gap: 5px;
   padding-left: 0;
   list-style: none;
 }
@@ -5787,6 +5788,7 @@ fieldset:disabled .btn {
   z-index: 2;
   color: var(--bs-pagination-hover-color);
   background-color: var(--bs-pagination-hover-bg);
+
   border-color: var(--bs-pagination-hover-border-color);
 }
 
