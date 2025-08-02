@@ -28,6 +28,16 @@
             <p class="event-currency">{{ event.currency.symbol }}</p>
             <p class="event-date">{{ event.created_at|date:"d M Y" }}</p>
           </li>
+          {% empty %}
+          <div class="events-empty">
+            <img
+                src="{% static 'images/event-icon.png' %}"
+                width="50"
+                height="50"
+                alt="Event-icon"
+            >
+            <p class="text-info text-gradient">Events was not found.</p>
+          </div>
         {% endfor %}
     </ul>
 
