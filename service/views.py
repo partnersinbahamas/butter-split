@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model, login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DeleteView
 
 from .forms import UserCreateForm, EventForm, EventListSearchForm
 from .models import Event
@@ -104,3 +104,9 @@ class EventListView(ListView):
                 .prefetch_related('participants')
         )
 
+
+class EventDeleteView(DeleteView):
+    model = Event
+    template_name = 'pages/event-delete-confirmation.html'
+    context_object_name = 'event'
+    success_url = reverse_lazy('service:event-list')
