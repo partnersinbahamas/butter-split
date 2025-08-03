@@ -32,6 +32,7 @@ def create_events(db, get_currency):
     return index
 
 
+@pytest.mark.django_db
 class TestPrivateEventListView:
     def test_events_from_other_users_should_not_be_displayed(self, django_user_model, client, get_currency):
         log_user = django_user_model.objects.create(
@@ -107,6 +108,7 @@ class TestPrivateEventListView:
         assert f"{user.username} event-1" in response.content.decode()
 
 
+@pytest.mark.django_db
 class TestPublicEventListView:
     def test_events_should_be_displayed_for_anonym_user(self, django_user_model, client, create_events):
         session = client.session
