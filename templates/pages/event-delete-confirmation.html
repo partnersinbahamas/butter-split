@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+  <section class="event-deletion-page shadow">
+    <article>
+      <p>
+        Are you sure you want to permanently delete <strong>'{{ event.name }}'</strong> event?
+      </p>
+
+      <p>
+        This will also delete all participants associations and cannot be undone.
+      </p>
+    </article>
+
+    <form
+        action="{% url 'service:event-delete' event.id %}"
+        method="post"
+        novalidate
+    >
+      {% csrf_token %}
+
+      <button class="event-danger btn" type="submit">
+        Confirm
+      </button>
+
+      <a class="event-kind btn" href="{% url 'service:event-list' %}">
+        Cancel
+      </a>
+    </form>
+  </section>
+{% endblock %}
