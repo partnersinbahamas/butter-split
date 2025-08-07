@@ -1,0 +1,12 @@
+{% load static %}
+
+{% if messages %}
+  {% for message in messages %}
+    <ul class="messages">
+      <li class="shadow message">
+        <div class="message-type message-type-{{ message.tags }}"></div>
+        {{ message }}
+      </li>
+    </ul>
+  {% endfor %}
+{% endif %}
