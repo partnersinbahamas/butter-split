@@ -29,7 +29,7 @@
 
               <div class="event-activity">
                 <a class="event-danger btn btn-link" href="{% url 'service:event-delete' event.id %}">DELETE</a>
-                <a class="event-kind btn btn-link" href="">EDIT</a>
+                <a class="event-kind btn btn-link" href="{% url 'service:event-update' event.id %}">EDIT</a>
               </div>
             </div>
 

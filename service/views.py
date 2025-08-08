@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model, login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 
 from .forms import UserCreateForm, EventForm, EventListSearchForm
 from .models import Event
@@ -45,7 +45,7 @@ class UserCreateView(CreateView):
 
 class EventCreateView(CreateView):
     model = Event
-    template_name = 'pages/event_create.html'
+    template_name = 'pages/event_action_page.html'
     form_class = EventForm
     success_url = reverse_lazy('service:index')
 
@@ -110,3 +110,17 @@ class EventDeleteView(DeleteView):
     template_name = 'pages/event-delete-confirmation.html'
     context_object_name = 'event'
     success_url = reverse_lazy('service:event-list')
+
+
+class EventUpdateView(UpdateView):
+    model = Event
+    template_name = 'pages/event_action_page.html'
+    form_class = EventForm
+    success_url = reverse_lazy('service:event-list')
+
+    def get_form_kwargs(self):
+        kwargs = super(EventUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['session_key'] = self.request.session.session_key
+
+        return kwargs
