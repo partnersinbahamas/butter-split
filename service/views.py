@@ -45,7 +45,7 @@ class UserCreateView(CreateView):
 
 class EventCreateView(CreateView):
     model = Event
-    template_name = 'pages/event_create.html'
+    template_name = 'pages/event_action_page.html'
     form_class = EventForm
     success_url = reverse_lazy('service:index')
 
@@ -114,7 +114,7 @@ class EventDeleteView(DeleteView):
 
 class EventUpdateView(UpdateView):
     model = Event
-    template_name = 'pages/event_create.html'
+    template_name = 'pages/event_action_page.html'
     form_class = EventForm
     success_url = reverse_lazy('service:event-list')
 
