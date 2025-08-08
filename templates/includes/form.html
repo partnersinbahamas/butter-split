@@ -29,5 +29,9 @@
     {% if request.resolver_match.url_name == 'event-create' %}
       Create
     {% endif %}
+
+    {% if request.resolver_match.url_name == 'event-update' %}
+      Update
+    {% endif %}
   </button>
 </form>
