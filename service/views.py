@@ -50,7 +50,14 @@ class EventCreateView(CreateView):
     model = Event
     template_name = 'pages/event_action_page.html'
     form_class = EventForm
-    success_url = reverse_lazy('service:index')
+    success_url = reverse_lazy('service:event-list')
+
+    def call_success_view_message(self):
+        event_name = self.request.POST.get('name')
+        messages.success(self.request, mark_safe(f"Event <strong>'{event_name}'</strong> was successfully created."))
+
+    def call_error_view_message(self):
+        messages.error(self.request, mark_safe(f"Event could not be created due to error."))
 
     def get_form_kwargs(self):
         kwargs = super(EventCreateView, self).get_form_kwargs()
@@ -69,8 +76,23 @@ class EventCreateView(CreateView):
                 self.request.session.save()
             form.instance.session_id = self.request.session.session_key
 
+        self.call_success_view_message()
         self.object = form.save()
+
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        self.call_error_view_message()
+        return super(EventCreateView, self).form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        event_name = request.POST.get('name')
+
+        try:
+            return super(EventCreateView, self).post(request, *args, **kwargs)
+        except (Exception, DatabaseError):
+            self.call_error_view_message()
+            return self.render_to_response(self.get_context_data(form=self.get_form(), object=None))
 
 
 class EventListView(ListView):
