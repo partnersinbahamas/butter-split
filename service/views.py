@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model, login
-from django.db.models import Expression
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib import messages
+from django.db import DatabaseError
 
 from .forms import UserCreateForm, EventForm, EventListSearchForm
 from .models import Event
@@ -119,9 +119,9 @@ class EventDeleteView(DeleteView):
 
         try:
             super(EventDeleteView, self).post(request, *args, **kwargs)
-            messages.success(request, mark_safe(f'Event <strong>{event.name}</strong> was successfully deleted.'))
-        except Expression:
-            messages.error(request, 'Event was not deleted.')
+            messages.success(request, mark_safe(f"Event <strong>'{event.name}'</strong> was successfully deleted."))
+        except (Exception, DatabaseError):
+            messages.error(request, mark_safe(f"Event <strong>'{event.name}'</strong> could not be deleted due to an unexpected error."))
         return HttpResponseRedirect(reverse_lazy('service:event-list'))
 
 

@@ -5,7 +5,9 @@
     <ul class="messages">
       <li class="shadow message">
         <div class="message-type message-type-{{ message.tags }}"></div>
-        {{ message }}
+        <span>
+          {{ message }}
+        </span>
       </li>
     </ul>
   {% endfor %}
