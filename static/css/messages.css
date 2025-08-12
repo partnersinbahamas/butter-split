@@ -19,6 +19,7 @@
     font-size: 12px;
     width: 100%;
     min-width: 300px;
+    max-width: 400px;
     background-color: #e4f3ff;
     border-radius: 8px;
     position: relative;
