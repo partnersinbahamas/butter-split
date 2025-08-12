@@ -86,13 +86,12 @@ class EventCreateView(CreateView):
         return super(EventCreateView, self).form_invalid(form)
 
     def post(self, request, *args, **kwargs):
-        event_name = request.POST.get('name')
-
         try:
             return super(EventCreateView, self).post(request, *args, **kwargs)
         except (Exception, DatabaseError):
+            self.object = None
             self.call_error_view_message()
-            return self.render_to_response(self.get_context_data(form=self.get_form(), object=None))
+            return self.render_to_response(self.get_context_data(form=self.get_form()))
 
 
 class EventListView(ListView):
@@ -140,8 +139,10 @@ class EventDeleteView(DeleteView):
         event = self.get_object()
 
         try:
-            super(EventDeleteView, self).post(request, *args, **kwargs)
+            response = super(EventDeleteView, self).post(request, *args, **kwargs)
             messages.success(request, mark_safe(f"Event <strong>'{event.name}'</strong> was successfully deleted."))
+
+            return response
         except (Exception, DatabaseError):
             messages.error(request, mark_safe(f"Event <strong>'{event.name}'</strong> could not be deleted due to an unexpected error."))
         return HttpResponseRedirect(reverse_lazy('service:event-list'))
@@ -153,9 +154,35 @@ class EventUpdateView(UpdateView):
     form_class = EventForm
     success_url = reverse_lazy('service:event-list')
 
+    def call_success_view_message(self):
+        event = self.get_object()
+        messages.success(self.request, mark_safe(f"Event <strong>'{event.name}'</strong> was successfully updated."))
+
+
+    def call_error_view_message(self):
+        event = self.get_object()
+        messages.error(self.request, mark_safe(
+            f"Event <strong>'{event.name}'</strong> could not be updated."))
+
     def get_form_kwargs(self):
         kwargs = super(EventUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['session_key'] = self.request.session.session_key
 
         return kwargs
+
+    def form_valid(self, form):
+        self.call_success_view_message()
+        return super(EventUpdateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        self.call_error_view_message()
+        return super(EventUpdateView, self).form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super(EventUpdateView, self).post(request, *args, **kwargs)
+        except (Exception, DatabaseError):
+            self.object = None
+            self.call_error_view_message()
+            return self.render_to_response(self.get_context_data(form=self.get_form()))
