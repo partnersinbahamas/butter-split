@@ -1,8 +1,11 @@
 from django.contrib.auth import get_user_model, login
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from django.contrib import messages
+from django.db import DatabaseError
 
 from .forms import UserCreateForm, EventForm, EventListSearchForm
 from .models import Event
@@ -47,7 +50,14 @@ class EventCreateView(CreateView):
     model = Event
     template_name = 'pages/event_action_page.html'
     form_class = EventForm
-    success_url = reverse_lazy('service:index')
+    success_url = reverse_lazy('service:event-list')
+
+    def call_success_view_message(self):
+        event_name = self.request.POST.get('name')
+        messages.success(self.request, mark_safe(f"Event <strong>'{event_name}'</strong> was successfully created."))
+
+    def call_error_view_message(self):
+        messages.error(self.request, mark_safe(f"Event could not be created due to error."))
 
     def get_form_kwargs(self):
         kwargs = super(EventCreateView, self).get_form_kwargs()
@@ -66,8 +76,22 @@ class EventCreateView(CreateView):
                 self.request.session.save()
             form.instance.session_id = self.request.session.session_key
 
+        self.call_success_view_message()
         self.object = form.save()
+
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        self.call_error_view_message()
+        return super(EventCreateView, self).form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super(EventCreateView, self).post(request, *args, **kwargs)
+        except (Exception, DatabaseError):
+            self.object = None
+            self.call_error_view_message()
+            return self.render_to_response(self.get_context_data(form=self.get_form()))
 
 
 class EventListView(ListView):
@@ -111,6 +135,18 @@ class EventDeleteView(DeleteView):
     context_object_name = 'event'
     success_url = reverse_lazy('service:event-list')
 
+    def post(self, request, *args, **kwargs):
+        event = self.get_object()
+
+        try:
+            response = super(EventDeleteView, self).post(request, *args, **kwargs)
+            messages.success(request, mark_safe(f"Event <strong>'{event.name}'</strong> was successfully deleted."))
+
+            return response
+        except (Exception, DatabaseError):
+            messages.error(request, mark_safe(f"Event <strong>'{event.name}'</strong> could not be deleted due to an unexpected error."))
+        return HttpResponseRedirect(reverse_lazy('service:event-list'))
+
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -118,9 +154,35 @@ class EventUpdateView(UpdateView):
     form_class = EventForm
     success_url = reverse_lazy('service:event-list')
 
+    def call_success_view_message(self):
+        event = self.get_object()
+        messages.success(self.request, mark_safe(f"Event <strong>'{event.name}'</strong> was successfully updated."))
+
+
+    def call_error_view_message(self):
+        event = self.get_object()
+        messages.error(self.request, mark_safe(
+            f"Event <strong>'{event.name}'</strong> could not be updated."))
+
     def get_form_kwargs(self):
         kwargs = super(EventUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['session_key'] = self.request.session.session_key
 
         return kwargs
+
+    def form_valid(self, form):
+        self.call_success_view_message()
+        return super(EventUpdateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        self.call_error_view_message()
+        return super(EventUpdateView, self).form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super(EventUpdateView, self).post(request, *args, **kwargs)
+        except (Exception, DatabaseError):
+            self.object = None
+            self.call_error_view_message()
+            return self.render_to_response(self.get_context_data(form=self.get_form()))
