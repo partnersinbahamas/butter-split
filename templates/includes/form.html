@@ -17,21 +17,23 @@
     </div>
   {% endfor %}
 
-  <button type="submit" class="btn bg-gradient-info w-100 mb-0">
-    {% if request.resolver_match.url_name == 'login' %}
-      Sign in
-    {% endif %}
+  {% if request.resolver_match.url_name != 'event-detail' %}
+    <button type="submit" class="btn bg-gradient-info w-100 mb-0">
+      {% if request.resolver_match.url_name == 'login' %}
+        Sign in
+      {% endif %}
 
-    {% if request.resolver_match.url_name == 'registrate' %}
-      Sign up
-    {% endif %}
+      {% if request.resolver_match.url_name == 'registrate' %}
+        Sign up
+      {% endif %}
 
-    {% if request.resolver_match.url_name == 'event-create' %}
-      Create
-    {% endif %}
+      {% if request.resolver_match.url_name == 'event-create' %}
+        Create
+      {% endif %}
 
-    {% if request.resolver_match.url_name == 'event-update' %}
-      Update
-    {% endif %}
-  </button>
+      {% if request.resolver_match.url_name == 'event-update' %}
+        Update
+      {% endif %}
+    </button>
+  {% endif %}
 </form>
