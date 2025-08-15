@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 
@@ -79,3 +80,29 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Expense(models.Model):
+    name = models.CharField(max_length=255)
+    payer = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='expenses')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='expenses')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.payer.name}"
+
+    def clean(self):
+        if self.payer not in  self.event.participants.all():
+            raise ValidationError(f"{self.payer.name} participant is not part of the event {self.event.name}.")
+
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Expense'
+        verbose_name_plural = 'Expenses'
+        ordering = ('-created_at',)
+
