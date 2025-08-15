@@ -1,7 +1,7 @@
 .messages {
     position: absolute;
     right: 24px;
-    top: 85px;
+    top: 78px;
 
     display: flex;
     gap: 5px;
@@ -17,8 +17,7 @@
     justify-content: center;
     padding: 0;
     font-size: 12px;
-    width: 100%;
-    min-width: 300px;
+    width: 110%;
     max-width: 400px;
     background-color: #e4f3ff;
     border-radius: 8px;
