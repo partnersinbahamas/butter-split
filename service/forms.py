@@ -87,4 +87,11 @@ class EventListSearchForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'Search...'})
     )
 
+class EventDetailForm(EventForm):
+    def __init__(self, *args, **kwargs):
+        super(EventDetailForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['disabled'] = True
+
 
