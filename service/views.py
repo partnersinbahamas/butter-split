@@ -2,9 +2,9 @@ from django.contrib.auth import get_user_model, login
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
 
-from .forms import UserCreateForm, EventForm, EventListSearchForm
+from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm
 from .models import Event
 
 MAX_EVENT_CHIPS = 3
@@ -124,3 +124,16 @@ class EventUpdateView(UpdateView):
         kwargs['session_key'] = self.request.session.session_key
 
         return kwargs
+
+
+class EventDetailView(DetailView):
+    model = Event
+    template_name = 'pages/event_detail.html'
+    context_object_name = 'event'
+    form_class = EventDetailForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = EventDetailForm(instance=self.object)
+
+        return context

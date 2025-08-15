@@ -5,7 +5,13 @@
   <div class="container event-page-container shadow">
 
     <div class="event-card">
-      <img src="{% static 'images/butter.png' %}" alt="butter image">
+      <div class="event-card-head">
+        <img src="{% static 'images/event-icon.png' %}" alt="butter image">
+        {% if request.resolver_match.url_name == 'event-detail' %}
+          {% include 'includes/event_activity_buttons.html' %}
+        {% endif %}
+      </div>
+
       {% include 'includes/form.html' %}
     </div>
   </div>
