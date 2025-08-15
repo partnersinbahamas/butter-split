@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
 
@@ -85,6 +86,7 @@ class Event(models.Model):
 class Expense(models.Model):
     name = models.CharField(max_length=255)
     payer = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='expenses')
+    amount = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0)], default=0)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='expenses')
     created_at = models.DateTimeField(auto_now_add=True)
 
