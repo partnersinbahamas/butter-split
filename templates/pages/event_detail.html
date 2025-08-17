@@ -1,1 +1,11 @@
 {% extends 'pages/event_action_page.html' %}
+
+{%  block content %}
+  <section class="event-detail-page">
+    {{ block.super }}
+
+    <div>
+      {% include 'includes/expense_form.html' %}
+     </div>
+  </section>
+{% endblock %}

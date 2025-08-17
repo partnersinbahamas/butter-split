@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
 
-from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm
+from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm, ExpenseForm
 from .models import Event
 
 MAX_EVENT_CHIPS = 3
@@ -135,5 +135,6 @@ class EventDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = EventDetailForm(instance=self.object)
+        context['expense_form'] = ExpenseForm(event=self.object)
 
         return context

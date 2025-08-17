@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Event, Participant, Currency
+from .models import Event, Participant, Currency, Expense
 from django.core.exceptions import ValidationError
 
 
@@ -95,3 +95,18 @@ class EventDetailForm(EventForm):
             self.fields[field].widget.attrs['disabled'] = True
 
 
+class ExpenseForm(forms.ModelForm):
+    payer = forms.ModelChoiceField(
+        queryset=Participant.objects.all(),
+        widget=forms.Select(),
+    )
+
+    def __init__(self, event: Event | None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if event and event.participants.count():
+            self.fields['payer'].queryset = event.participants.all()
+
+    class Meta:
+        model = Expense
+        fields = ('name', 'payer', 'amount',)

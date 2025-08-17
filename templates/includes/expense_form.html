@@ -1,0 +1,27 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<form class="expense_form shadow" role="form" method="post" novalidate>
+  {% csrf_token %}
+
+  {% for field in expense_form %}
+    <div>
+      <label class="text-info text-gradient">{{ field.label }}</label>
+
+      <div>
+        {{ field|add_class:"form-control" }}
+
+        {% for error in field.errors %}
+          <p class="d-block text-danger mb-1 error">
+            {{ error }}
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+
+  <button type="submit">
+    <span class="text-info text-gradient">▼</span>
+    <img src="{% static 'images/butter.png' %}" alt="Button icon" width="50" height="50">
+  </button>
+</form>
