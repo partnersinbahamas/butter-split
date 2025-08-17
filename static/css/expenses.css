@@ -1,0 +1,35 @@
+.expense_form {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background-color: #e4f3ff;
+    padding: 10px;
+    border-radius: 10px;
+
+    button {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        top: 8px;
+        background-color: transparent;
+        text-align: center;
+        border: 0;
+
+        span {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+
+            top: -5px;
+            left: 40%;
+        }
+    }
+}
+
+.expense_form-submit {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+}
