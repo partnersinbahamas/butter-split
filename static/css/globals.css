@@ -27953,3 +27953,15 @@ pre[class*=language-] {
 #select2-id_participants-results {
   display: none !important;
 }
+
+.select2-container--default .select2-selection--single {
+  height: 38px !important;
+  display: flex;
+  align-items: center;
+
+  .select2-selection__rendered.select2-selection__rendered {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
