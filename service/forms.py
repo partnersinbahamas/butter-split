@@ -101,11 +101,18 @@ class ExpenseForm(forms.ModelForm):
         widget=forms.Select(),
     )
 
-    def __init__(self, event: Event | None, *args, **kwargs):
+    def __init__(self, *args, event: Event | None = None, **kwargs):
         super().__init__(*args, **kwargs)
 
         if event and event.participants.count():
             self.fields['payer'].queryset = event.participants.all()
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount < 1:
+            raise ValidationError('This field must be > 0')
+
+        return amount
 
     class Meta:
         model = Expense

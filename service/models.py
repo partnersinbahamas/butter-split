@@ -93,9 +93,10 @@ class Expense(models.Model):
     def __str__(self):
         return f"{self.name} - {self.payer.name}"
 
-    def clean(self):
-        if self.payer not in  self.event.participants.all():
-            raise ValidationError(f"{self.payer.name} participant is not part of the event {self.event.name}.")
+    def clean(self, **args):
+        if self.event_id and self.payer_id:
+            if self.payer not in self.event.participants.all():
+                raise ValidationError(f"{self.payer.name} participant is not part of the event {self.event.name}.")
 
         return super().clean()
 
