@@ -1,11 +1,13 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model, login
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
 
 from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm, ExpenseForm
-from .models import Event
+from .models import Event, Expense
 
 MAX_EVENT_CHIPS = 3
 
@@ -132,9 +134,29 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
     form_class = EventDetailForm
 
+    def get_queryset(self):
+        return Event.objects.select_related('owner', 'currency').prefetch_related('participants')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = EventDetailForm(instance=self.object)
-        context['expense_form'] = ExpenseForm(event=self.object)
+
+        if 'expense_form' in kwargs:
+            context['expense_form'] = kwargs['expense_form']
+        else:
+            context['expense_form'] = ExpenseForm(event=self.object)
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form = ExpenseForm(data=request.POST, instance=Expense(event=self.object), event=self.object)
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect(reverse_lazy('service:event-detail', kwargs={'pk': self.object.pk}))
+
+        context = self.get_context_data(expense_form=form)
+        return self.render_to_response(context)
