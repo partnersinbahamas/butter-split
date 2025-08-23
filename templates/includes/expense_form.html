@@ -6,7 +6,13 @@
 
   {% for field in expense_form %}
     <div>
-      <label class="text-info text-gradient">{{ field.label }}</label>
+      <label class="expense_label text-info text-gradient">
+        <span>{{ field.label }}</span>
+
+        {% if field.label == 'Amount' %}
+          <span>{{ event.currency.symbol }}</span>
+        {% endif %}
+      </label>
 
       <div>
         {{ field|add_class:"form-control" }}
