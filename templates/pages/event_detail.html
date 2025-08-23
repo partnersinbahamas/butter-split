@@ -1,4 +1,5 @@
 {% extends 'pages/event_action_page.html' %}
+{% load static %}
 
 {%  block content %}
   <section class="event-detail-page">
@@ -6,6 +7,36 @@
 
     <div>
       {% include 'includes/expense_form.html' %}
+
+      {% if event.expenses.count %}
+        <ul class="expenses shadow">
+          {% for expense in event.expenses.all %}
+            <li class="expense">
+              <div class="expense_section">
+                <img class="expense_image-butter" src="{% static 'images/butter.png' %}" alt="butter icon">
+                <span>
+                  {{ expense.name }}
+                </span>
+              </div>
+
+              <div class="expense_section">
+                <img class="expense_image-payer" src="{% static 'images/pay.png' %}" alt="pay icon">
+                <span>
+                  {{ expense.payer.name }}
+                </span>
+              </div>
+
+              <div class="expense_section">
+                <img class="expense_image-payer" src="{% static 'images/money-2.png' %}" alt="pay icon">
+                <span>
+                  {{ expense.amount }}
+                  {{ expense.event.currency.symbol }}
+                </span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
      </div>
   </section>
 {% endblock %}
