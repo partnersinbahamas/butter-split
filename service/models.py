@@ -82,6 +82,15 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+    def is_user_can_manage(self, request):
+        if (
+            (request.user.is_authenticated and request.user.id == self.owner.id) or
+            (self.session_id is not None and request.session.session_key == self.session_id)
+        ):
+            return True
+
+        return False
+
 
 class Expense(models.Model):
     name = models.CharField(max_length=255)

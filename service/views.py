@@ -1,8 +1,9 @@
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model, login
+from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
@@ -114,6 +115,20 @@ class EventDeleteView(DeleteView):
     context_object_name = 'event'
     success_url = reverse_lazy('service:event-list')
 
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.is_user_can_manage(request):
+            return super().dispatch(request, *args, **kwargs)
+
+        raise PermissionDenied()
+
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -149,6 +164,7 @@ class EventDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = EventDetailForm(instance=self.object)
+        context['can_manage'] = self.object.is_user_can_manage(self.request)
 
         if 'expense_form' in kwargs:
             context['expense_form'] = kwargs['expense_form']
