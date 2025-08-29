@@ -82,6 +82,9 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+    def get_total_expenses_amount(self):
+        return self.expenses.aggregate(total=models.Sum('amount'))['total']
+
     def is_user_can_manage(self, request):
         if (
             (request.user.is_authenticated and request.user.id == self.owner.id) or
