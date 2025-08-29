@@ -19,6 +19,8 @@ class TestPrivateEventDeleteView:
             password='test-user-password'
         )
 
+        client.force_login(user)
+
         event = Event.objects.create(
             name='test-event',
             owner=user,
