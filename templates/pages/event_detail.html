@@ -3,40 +3,17 @@
 
 {%  block content %}
   <section class="event-detail-page">
-    <div class="event-bar">
-      <div class="event-bar_section">
-        <img class="event-bar_image-money" src="{% static 'images/money-2.png' %}" alt="Money icon">
-        <span>
-          {{ event.get_total_expenses_amount|floatformat:2 }}
-          {{ event.currency.symbol }}
-        </span>
-      </div>
+    <div class="event-detail-top">
+      <a class="event-calculate-link" href="{% url 'service:event-calculate' event.id %}">
+        <img src="{% static 'images/calculator-icon.png' %}" alt="Calculator icon">
+      </a>
 
-      <div class="event-bar_section">
-        <img class="event-bar_image-butter" src="{% static 'images/butter.png' %}" alt="Butter icon">
-        <span>
-          {{ event.expenses.count }}
-        </span>
-      </div>
-
-      <div class="event-bar_section">
-        <img class="event-bar_image-participants" src="{% static 'images/participants-icon.png' %}" alt="Participants icon">
-        <span>
-          {{ event.participants.count }}
-        </span>
-      </div>
-
-
-      <div class="event-bar_section">
-        <span class="event-bar-date">
-          {{ event.created_at|date:"d M Y" }}
-        </span>
-      </div>
+      {% include 'includes/event_bar.html' %}
     </div>
 
     {{ block.super }}
 
-    <div>
+    <div class="event-expense-wrapper">
       {% include 'includes/expense_form.html' %}
 
       {% if event.expenses.count %}
@@ -51,14 +28,14 @@
               </div>
 
               <div class="expense_section">
-                <img class="expense_image-pay" src="{% static 'images/pay.png' %}" alt="pay icon">
+                <img class="expense_image-payer" src="{% static 'images/payer-icon.png' %}" alt="pay icon">
                 <span>
                   {{ expense.payer.name }}
                 </span>
               </div>
 
               <div class="expense_section">
-                <img class="expense_image-pay" src="{% static 'images/money-2.png' %}" alt="pay icon">
+                <img class="expense_image-amount" src="{% static 'images/money-2.png' %}" alt="pay icon">
                 <span>
                   {{ expense.amount }}
                   {{ expense.event.currency.symbol }}
