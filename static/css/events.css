@@ -231,6 +231,7 @@
   width: 100%;
   max-width: 500px;
   height: max-content;
+  position: relative;
 }
 
 .event-bar {
@@ -274,4 +275,47 @@
 .event-bar_image-participants {
     width: 30px;
     height: 30px;
+}
+
+.event-bar_image-event {
+    width: 20px;
+    height: 20px;
+}
+
+.event-expense-wrapper {
+  margin-top: 10px;
+}
+
+.event-detail-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.event-calculate-link {
+  width: 100%;
+  background-color: #e4f3ff;
+  text-align: center;
+  padding: 3px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  @media (min-width: 650px) {
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: min-content;
+
+    img {
+      width: 35px;
+      height: 35px;
+    }
+  }
 }

@@ -70,9 +70,14 @@
     height: 30px;
 }
 
-.expense_image-pay {
+.expense_image-amount {
     width: 20px;
     height: 20px;
+}
+
+.expense_image-payer {
+    width: 25px;
+    height: 25px;
 }
 
 .expense_form-submit {
