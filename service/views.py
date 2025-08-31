@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from django.contrib.auth import get_user_model, login
 from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
@@ -185,3 +183,24 @@ class EventDetailView(DetailView):
 
         context = self.get_context_data(expense_form=form)
         return self.render_to_response(context)
+
+
+def event_calculate_view(request: HttpRequest, pk: int) -> HttpResponse:
+    if request.method == 'POST':
+        settle_id = request.POST.get('Settle')
+
+        if settle_id:
+            settlement = Settlement.objects.get(pk=settle_id)
+            settlement.is_settled = True
+            settlement.save()
+
+
+    event = Event.objects.get(pk=pk)
+    settlements = event.calculate_participants_debt()
+
+    context = {
+        'event': event,
+        'settlements': settlements
+    }
+
+    return render(request, 'pages/event-calculate-page.html', context)

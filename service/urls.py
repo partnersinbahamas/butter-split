@@ -1,7 +1,7 @@
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
 
-from .views import index, UserCreateView, EventCreateView, EventListView, EventDeleteView, EventUpdateView, EventDetailView
+from .views import index, event_calculate_view, UserCreateView, EventCreateView, EventListView, EventDeleteView, EventUpdateView, EventDetailView
 
 urlpatterns = [
     path('', index, name='index'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('event/delete/<int:pk>', EventDeleteView.as_view(), name='event-delete'),
     path('event/update/<int:pk>', EventUpdateView.as_view(), name='event-update'),
     path('event/<int:pk>', EventDetailView.as_view(), name='event-detail'),
+    path('event/calculate/<int:pk>', event_calculate_view, name='event-calculate'),
 ] + debug_toolbar_urls()
 
 app_name = 'service'
