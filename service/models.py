@@ -83,7 +83,7 @@ class Event(models.Model):
         return self.name
 
     def get_total_expenses_amount(self):
-        return self.expenses.aggregate(total=models.Sum('amount'))['total']
+        return self.expenses.aggregate(total=models.Sum('amount'))['total'] or 0
 
     def is_user_can_manage(self, request):
         if (
@@ -93,6 +93,45 @@ class Event(models.Model):
             return True
 
         return False
+
+    def calculate_participants_debt(self):
+        if not self.expenses.count(): return []
+
+        participants = self.participants.annotate(
+            paid=models.Sum('expenses__amount', filter=Q(expenses__event=self)),
+        )
+
+        balances = []
+        settlements = []
+        fair_share = self.get_total_expenses_amount() / participants.count()
+
+        for participant in participants:
+            paid = participant.paid or 0
+
+            balance = paid - fair_share
+            balances.append({'name': participant.name, 'balance': balance})
+
+        creditors = sorted([p for p in balances if p['balance'] > 0], key=lambda p: p['balance'])
+        debtors = sorted([p for p in balances if p['balance'] < 0], key=lambda p: p['balance'], reverse=True)
+
+        while creditors and debtors:
+            debtor = debtors[0]
+            creditor = creditors[0]
+
+            amount = min(-debtor['balance'], creditor['balance'])
+
+            settlement = {'from': debtor['name'], 'to': creditor['name'], 'amount': round(amount, 2)}
+            settlements.append(settlement)
+
+            debtor['balance'] += amount
+            creditor['balance'] -= amount
+
+            if debtor['balance'] == 0:
+                debtors.pop(0)
+            if creditor['balance'] == 0:
+                creditors.pop(0)
+
+        return settlements
 
 
 class Expense(models.Model):

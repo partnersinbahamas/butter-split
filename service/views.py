@@ -186,15 +186,6 @@ class EventDetailView(DetailView):
 
 
 def event_calculate_view(request: HttpRequest, pk: int) -> HttpResponse:
-    if request.method == 'POST':
-        settle_id = request.POST.get('Settle')
-
-        if settle_id:
-            settlement = Settlement.objects.get(pk=settle_id)
-            settlement.is_settled = True
-            settlement.save()
-
-
     event = Event.objects.get(pk=pk)
     settlements = event.calculate_participants_debt()
 
