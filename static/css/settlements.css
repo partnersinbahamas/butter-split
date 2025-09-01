@@ -1,0 +1,107 @@
+.settlements-page {
+    width: 100%;
+}
+
+.settlements-content {
+    margin-top: 20px;
+}
+
+.settlements-empty {
+   text-align: center;
+}
+
+.settlements-empty-butter-icon {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    top: -20px;
+}
+
+.settlements-empty-settlement-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.settlements_list {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.settlement_item {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+    background-color: #e4f3ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settlement-image {
+    width: 25px;
+    height: 25px;
+}
+
+.settlement-pay-image {
+    width: 20px;
+    height: 20px;
+}
+
+.settlement-payment {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settlement-participant {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.settlement-marker {
+    width: 4px;
+    height: 13px;
+    border-radius: 2px;
+}
+
+.settlement-marker--blue {
+    background-color: dodgerblue;
+}
+
+.settlement-marker--orange {
+    background-color: orange;
+}
+
+.settlement-amount {
+    color: seagreen;
+    font-weight: bold;
+}
+
+.settlement-settled-image {
+    width: 20px;
+    height: 20px;
+}
+
+.settlement-submit {
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: transparent;
+    height: min-content;
+    font-size: 12px;
+    color: orangered;
+    border: 0;
+
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+    border-radius: 5px;
+}
