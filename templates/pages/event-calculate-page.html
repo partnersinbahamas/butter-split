@@ -1,0 +1,58 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+  <section class="settlements-page">
+      {% include 'includes/event_bar.html' %}
+
+      <div class="settlements-content">
+        {% if not event.expenses.count %}
+          <div class="settlements-empty">
+            <p class="text-info text-gradient">
+              There are no expenses for <strong>{{ event.name }}</strong> event. Settlements will be available once expenses are added.
+            </p>
+
+            <img class="settlements-empty-butter-icon" src="{% static 'images/butter.png' %}" alt="Butter icon">
+          </div>
+        {% elif not settlements %}
+          <div class="settlements-empty">
+            <p class="text-info text-gradient">
+              All expenses are balanced for <strong>{{ event.name }}</strong> event. Everyone’s payments are even.
+            </p>
+
+            <img class="settlements-empty-settlement-icon" src="{% static 'images/settlement-icon.png' %}" alt="Settlement icon">
+          <div class="settlements-empty">
+        {% else %}
+          <h3 class="text-info text-gradient">Settlements</h3>
+
+          <ul class="settlements_list">
+            {% for settlement in settlements %}
+              <li class="settlement_item">
+                <img class="settlement-image" src="{% static 'images/settlement-icon.png' %}" alt="Settlement icon">
+
+                <div class=settlement-payment>
+                  <div class="settlement-participant">
+                    <div class="settlement-marker settlement-marker--blue"></div>
+                    {{ settlement.from }}
+                  </div>
+
+                  <img class="settlement-pay-image" src="{% static 'images/pay.png' %}" alt="Pay icon">
+
+                  <div class="settlement-participant">
+                    <div class="settlement-marker settlement-marker--orange"></div>
+                    {{ settlement.to }}
+                  </div>
+                </div>
+
+                <span class="settlement-amount">
+                  <img class="settlement-pay-image" src="{% static 'images/money-2.png' %}" alt="Money icon">
+                    {{ settlement.amount }}
+                    {{ event.currency.symbol }}
+                  </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+  </section>
+{% endblock %}
