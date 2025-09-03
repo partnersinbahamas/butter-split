@@ -18,7 +18,7 @@
         <ul class="event-chips">
           {% for event_chip in event_chips %}
             <li>
-              <a href="">
+              <a href="{% url 'service:event-detail' event_chip.id %}">
                 <img
                     class="event-chip-icon"
                     src="{% static 'images/event-icon.png' %}"

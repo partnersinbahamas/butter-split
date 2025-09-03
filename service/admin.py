@@ -1,6 +1,17 @@
 from django.contrib import admin
 
-from .models import Currency, Event, Participant
+from .models import Currency, Event, Participant, Expense
+
+
+@admin.register(Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'payer', 'amount', 'event', 'created_at')
+    search_fields = ('name', 'event__name', 'payer__name')
+    list_filter = ('event', 'amount', 'created_at')
+    ordering = ('-created_at',)
+
+    class Meta:
+        model = Expense
 
 
 @admin.register(Currency)

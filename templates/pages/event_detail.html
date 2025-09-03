@@ -1,1 +1,50 @@
 {% extends 'pages/event_action_page.html' %}
+{% load static %}
+
+{%  block content %}
+  <section class="event-detail-page">
+    <div class="event-detail-top">
+      <a class="event-calculate-link" href="{% url 'service:event-calculate' event.id %}">
+        <img src="{% static 'images/calculator-icon.png' %}" alt="Calculator icon">
+      </a>
+
+      {% include 'includes/event_bar.html' %}
+    </div>
+
+    {{ block.super }}
+
+    <div class="event-expense-wrapper">
+      {% include 'includes/expense_form.html' %}
+
+      {% if event.expenses.count %}
+        <ul class="expenses shadow">
+          {% for expense in event.expenses.all %}
+            <li class="expense">
+              <div class="expense_section">
+                <img class="expense_image-butter" src="{% static 'images/butter.png' %}" alt="butter icon">
+                <span>
+                  {{ expense.name }}
+                </span>
+              </div>
+
+              <div class="expense_section">
+                <img class="expense_image-payer" src="{% static 'images/payer-icon.png' %}" alt="pay icon">
+                <span>
+                  {{ expense.payer.name }}
+                </span>
+              </div>
+
+              <div class="expense_section">
+                <img class="expense_image-amount" src="{% static 'images/money-2.png' %}" alt="pay icon">
+                <span>
+                  {{ expense.amount }}
+                  {{ expense.event.currency.symbol }}
+                </span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+     </div>
+  </section>
+{% endblock %}

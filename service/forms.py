@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Event, Participant, Currency
+from .models import Event, Participant, Currency, Expense
 from django.core.exceptions import ValidationError
 
 
@@ -95,3 +95,25 @@ class EventDetailForm(EventForm):
             self.fields[field].widget.attrs['disabled'] = True
 
 
+class ExpenseForm(forms.ModelForm):
+    payer = forms.ModelChoiceField(
+        queryset=Participant.objects.all(),
+        widget=forms.Select(),
+    )
+
+    def __init__(self, *args, event: Event | None = None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if event and event.participants.count():
+            self.fields['payer'].queryset = event.participants.all()
+
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount < 1:
+            raise ValidationError('This field must be > 0')
+
+        return amount
+
+    class Meta:
+        model = Expense
+        fields = ('name', 'payer', 'amount',)

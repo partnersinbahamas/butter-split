@@ -1,0 +1,95 @@
+.expense_form {
+    display: flex;
+    gap: 10px;
+    background-color: #e4f3ff;
+    padding: 10px;
+    border-radius: 10px;
+
+    button {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        top: 8px;
+        background-color: transparent;
+        text-align: center;
+        border: 0;
+
+        span {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+
+            top: -5px;
+            left: 40%;
+        }
+    }
+}
+
+.expenses {
+    padding: 0;
+    margin-top: 10px;
+    background-color: #e4f3ff;
+    border-radius: 10px;
+    overflow: scroll;
+    max-height: calc(31vh);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+    gap: 5px;
+}
+
+.expense {
+    padding: 10px;
+    width: 100%;
+    background-color: #e4f3ff;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .1) !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.expense_section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+
+    width: 100%;
+    min-width: 70px;
+    max-width: 100px;
+}
+
+
+.expense_image-butter {
+    width: 25px;
+    height: 30px;
+}
+
+.expense_image-amount {
+    width: 20px;
+    height: 20px;
+}
+
+.expense_image-payer {
+    width: 25px;
+    height: 25px;
+}
+
+.expense_form-submit {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+.expense_label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

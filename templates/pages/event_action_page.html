@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-  <div class="container event-page-container shadow">
+  <div class="event-page-container shadow">
 
     <div class="event-card">
       <div class="event-card-head">
@@ -28,6 +28,7 @@
             tags: true,
         });
         $('#id_currency').select2();
+        $('#id_payer').select2();
     });
   </script>
 {% endblock %}

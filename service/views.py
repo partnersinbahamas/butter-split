@@ -1,11 +1,13 @@
 from django.contrib.auth import get_user_model, login
-from django.http import HttpRequest, HttpResponse
+from django.core.exceptions import PermissionDenied
+from django.db.models import Prefetch
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
 
-from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm
-from .models import Event
+from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm, ExpenseForm
+from .models import Event, Expense
 
 MAX_EVENT_CHIPS = 3
 
@@ -111,6 +113,20 @@ class EventDeleteView(DeleteView):
     context_object_name = 'event'
     success_url = reverse_lazy('service:event-list')
 
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.is_user_can_manage(request):
+            return super().dispatch(request, *args, **kwargs)
+
+        raise PermissionDenied()
+
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -132,8 +148,50 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
     form_class = EventDetailForm
 
+    def get_queryset(self):
+        return (Event.objects
+        .select_related('owner', 'currency')
+        .prefetch_related(
+            'participants',
+            Prefetch(
+                'expenses',
+                queryset=Expense.objects.select_related('payer')
+            ),
+        ))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = EventDetailForm(instance=self.object)
+        context['can_manage'] = self.object.is_user_can_manage(self.request)
+
+        if 'expense_form' in kwargs:
+            context['expense_form'] = kwargs['expense_form']
+        else:
+            context['expense_form'] = ExpenseForm(event=self.object)
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        form = ExpenseForm(data=request.POST, instance=Expense(event=self.object), event=self.object)
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect(reverse_lazy('service:event-detail', kwargs={'pk': self.object.pk}))
+
+        context = self.get_context_data(expense_form=form)
+        return self.render_to_response(context)
+
+
+def event_calculate_view(request: HttpRequest, pk: int) -> HttpResponse:
+    event = Event.objects.get(pk=pk)
+    settlements = event.calculate_participants_debt()
+
+    context = {
+        'event': event,
+        'settlements': settlements
+    }
+
+    return render(request, 'pages/event-calculate-page.html', context)
