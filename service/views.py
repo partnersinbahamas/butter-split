@@ -30,7 +30,6 @@ class UserCreateView(CreateView):
     model = get_user_model()
     form_class = UserCreateForm
     template_name = 'registration/login.html'
-    success_url = reverse_lazy('service:index')
 
     def get_success_url(self):
         return reverse_lazy('service:index')
@@ -49,7 +48,9 @@ class EventCreateView(CreateView):
     model = Event
     template_name = 'pages/event_action_page.html'
     form_class = EventForm
-    success_url = reverse_lazy('service:index')
+
+    def get_success_url(self):
+        return reverse_lazy('service:event-detail', kwargs={'pk': self.object.id})
 
     def get_form_kwargs(self):
         kwargs = super(EventCreateView, self).get_form_kwargs()
@@ -132,7 +133,9 @@ class EventUpdateView(UpdateView):
     model = Event
     template_name = 'pages/event_action_page.html'
     form_class = EventForm
-    success_url = reverse_lazy('service:event-list')
+
+    def get_success_url(self):
+        return reverse_lazy('service:event-detail', kwargs={'pk': self.object.id})
 
     def get_form_kwargs(self):
         kwargs = super(EventUpdateView, self).get_form_kwargs()
