@@ -31,8 +31,6 @@
     margin-top: 10px;
     background-color: #e4f3ff;
     border-radius: 10px;
-    overflow: scroll;
-    max-height: calc(31vh);
 
     display: flex;
     flex-direction: column;

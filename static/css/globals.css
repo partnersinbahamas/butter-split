@@ -208,6 +208,7 @@ body::before {
 
   background: url("/static/images/party-bgc-icon.png") no-repeat center;
   background-size: cover;
+  top: -30px;
 
   filter: blur(20px);
   z-index: -1;
@@ -22985,6 +22986,7 @@ label,
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 9;
 }
 
 .footer .nav-link {
@@ -24453,7 +24455,8 @@ html {
   margin-top: 100px;
   width: 100%;
   max-width: 500px;
-  height: calc(100vh - 125px);
+  height: max-content;
+  margin-bottom: 70px;
   display: flex;
   justify-content: center;
 

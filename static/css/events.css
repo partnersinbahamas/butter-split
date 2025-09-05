@@ -70,7 +70,6 @@
   align-items: center;
 
   width: 100%;
-  height: calc(100vh - 150px);
 }
 
 .event-list {
