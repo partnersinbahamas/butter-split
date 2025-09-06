@@ -23,15 +23,6 @@
           {{ user.username }}
         </p>
         <div class="divide">
-        <form action="{% url 'service:logout' %}" method="post">
-          {% csrf_token %}
-          <button
-            class="btn-logout text-info text-gradient font-weight-bold submit"
-            type="submit"
-          >
-            Logout
-          </button>
-        </form>
       </div>
     {% else %}
       {% if request.resolver_match.url_name != 'login' %}
