@@ -2,11 +2,21 @@ import ast
 
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from .models import Event, Participant, Currency, Expense
 from django.core.exceptions import ValidationError
 
+class UserLoginForm(AuthenticationForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'password')
+
+    def get_invalid_login_error(self):
+        return ValidationError(
+            {"username": "No account found with these credentials."},
+            code="invalid-login"
+        )
 
 class UserCreateForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):

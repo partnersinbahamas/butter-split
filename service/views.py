@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
@@ -6,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
 
-from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm, ExpenseForm
+from .forms import UserCreateForm, EventForm, EventListSearchForm, EventDetailForm, ExpenseForm, UserLoginForm
 from .models import Event, Expense
 
 MAX_EVENT_CHIPS = 3
@@ -24,6 +25,14 @@ def index(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, 'pages/index.html', context=context)
+
+class UserLoginView(LoginView):
+    model = get_user_model()
+    template_name = 'registration/login.html'
+    form_class = UserLoginForm
+
+    def get_success_url(self):
+        return reverse_lazy('service:index')
 
 
 class UserCreateView(CreateView):
