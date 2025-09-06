@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, DetailView
@@ -41,16 +41,7 @@ class UserCreateView(CreateView):
     template_name = 'registration/login.html'
 
     def get_success_url(self):
-        return reverse_lazy('service:index')
-
-    def form_valid(self, form):
-        self.object = form.save()
-
-        if not self.request.user.is_authenticated:
-            user = self.object
-            login(self.request, user)
-
-        return redirect(self.get_success_url())
+        return reverse_lazy('service:login')
 
 
 class EventCreateView(CreateView):
