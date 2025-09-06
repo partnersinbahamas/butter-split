@@ -87,7 +87,7 @@ class Event(models.Model):
 
     def is_user_can_manage(self, request):
         if (
-            (request.user.is_authenticated and request.user.id == self.owner.id) or
+            (request.user.is_authenticated and self.owner and request.user.id == self.owner.pk) or
             (self.session_id is not None and request.session.session_key == self.session_id)
         ):
             return True
