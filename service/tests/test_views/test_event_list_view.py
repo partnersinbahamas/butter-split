@@ -3,18 +3,10 @@ from django.db.models import QuerySet
 from django.urls import reverse_lazy
 
 from service.models import Currency, User, Event
+from service.tests.fixtures import get_currency
 
 CREATED_EVENTS_COUNT = 10
 EVENTS_PER_PAGE = 4
-
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
-
 
 @pytest.fixture()
 def create_events(db, get_currency):

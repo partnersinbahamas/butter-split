@@ -2,14 +2,7 @@ import pytest
 from django.urls import reverse_lazy
 
 from service.models import Currency, Participant, Event
-
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
+from service.tests.fixtures import get_currency
 
 @pytest.fixture()
 def get_post_data(get_currency: Currency):

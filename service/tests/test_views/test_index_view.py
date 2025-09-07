@@ -1,20 +1,11 @@
 from typing import Callable
 
 import pytest
-from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 
 from service.models import Currency, Event
-
-
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
+from service.tests.fixtures import get_currency
 
 
 @pytest.fixture()

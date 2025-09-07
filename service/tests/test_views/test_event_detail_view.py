@@ -2,18 +2,11 @@ import pytest
 from typing import Callable
 from django.urls import reverse_lazy
 
-from service.models import Participant, Currency, Event, User
+from service.models import Participant, Event, User
+from service.tests.fixtures import get_currency
 
 
 RAW_PARTICIPANTS = ['Participant-1', 'Participant-2']
-
-@pytest.fixture()
-def get_currency(db) -> Currency:
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
 
 @pytest.fixture()
 def create_event(db, get_currency) -> Callable:

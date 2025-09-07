@@ -1,15 +1,9 @@
 import pytest
 from django.urls import reverse_lazy
 
-from service.models import Event, Currency
+from service.models import Event
+from service.tests.fixtures import get_currency
 
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
 
 @pytest.mark.django_db
 class TestPrivateEventDeleteView:

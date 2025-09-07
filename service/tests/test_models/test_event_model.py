@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction, IntegrityError
 
 from service.models import Participant, User, Event, Currency
+from service.tests.fixtures import get_currency, get_participant
 
 
 @pytest.fixture()
@@ -12,21 +13,6 @@ def get_user(db):
         first_name="some-first-name",
         last_name="some-last-name",
         password="user-password"
-    )
-
-@pytest.fixture()
-def get_participant(db, get_user):
-    return Participant.objects.create(
-        name="test-participant",
-        creator=get_user
-    )
-
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
     )
 
 @pytest.mark.parametrize('event_name', ['test-event'])

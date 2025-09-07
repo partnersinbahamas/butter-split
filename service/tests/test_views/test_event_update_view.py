@@ -3,16 +3,9 @@ from typing import Callable
 from django.urls import reverse_lazy
 
 from service.models import Currency, Event, User, Participant
+from service.tests.fixtures import get_currency
 
 RAW_PARTICIPANTS = ['Participant-1', 'Participant-2']
-
-@pytest.fixture()
-def get_currency(db) -> Currency:
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
 
 @pytest.fixture()
 def get_currency_to_update(db) -> Currency:

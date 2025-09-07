@@ -4,21 +4,9 @@ from typing import Callable
 
 from django.core.exceptions import ValidationError
 
-from service.models import Event, User, Participant, Expense, Currency
+from service.models import Event, User, Participant, Expense
+from service.tests.fixtures import get_currency, get_participant
 
-@pytest.fixture()
-def get_currency(db):
-    return Currency.objects.create(
-        code='USD',
-        name='US Dollar',
-        symbol='$',
-    )
-
-@pytest.fixture()
-def get_participant(db) -> Participant:
-    return Participant.objects.create(
-        name="test-participant",
-    )
 
 @pytest.fixture()
 def get_event(db, get_currency, get_participant) -> Callable:

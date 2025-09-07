@@ -3,7 +3,6 @@ from django.db import IntegrityError, transaction
 
 from service.models import Currency
 
-
 @pytest.fixture(
     params=[
         (
@@ -16,7 +15,6 @@ from service.models import Currency
 )
 def currency_data(request):
     return request.param
-
 
 @pytest.mark.django_db
 class TestCurrencyModel:

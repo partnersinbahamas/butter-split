@@ -1,6 +1,6 @@
 import pytest
 
-from service.models import User, Participant, Currency
+from service.models import User, Participant
 
 
 @pytest.fixture()
