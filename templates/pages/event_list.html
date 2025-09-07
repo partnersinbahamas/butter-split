@@ -35,7 +35,12 @@
               {{ event.participants.count }}
             </div>
 
-            <p class="event-currency">{{ event.currency.symbol }}</p>
+            <div class="event-content">
+              <img  class="butter-icon" src="{% static 'images/butter.png' %}" alt="Butter icon">
+              {{ event.expenses.count }}
+            </div>
+
+            <p class="event-currency mb-2">{{ event.get_total_expenses_amount|floatformat:2 }} {{ event.currency.symbol }}</p>
             <p class="event-date">{{ event.created_at|date:"d M Y" }}</p>
           </li>
           {% empty %}
