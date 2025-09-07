@@ -106,7 +106,7 @@ class EventListView(ListView):
             queryset
                 .order_by('-created_at')
                 .select_related('owner', 'currency')
-                .prefetch_related('participants')
+                .prefetch_related('participants', 'expenses')
         )
 
 
@@ -201,7 +201,12 @@ class EventDetailView(DetailView):
 
 
 def event_calculate_view(request: HttpRequest, pk: int) -> HttpResponse:
-    event = Event.objects.get(pk=pk)
+    event = (
+        Event.objects
+            .select_related('owner', 'currency')
+            .prefetch_related('participants', 'expenses'
+        ).get(pk=pk))
+
     settlements = event.calculate_participants_debt()
 
     context = {
