@@ -18,6 +18,8 @@ def index(request: HttpRequest) -> HttpResponse:
     else:
         event_chips = Event.objects.filter(owner=None, session_id=request.session.session_key)
 
+    event_chips = event_chips.order_by('-created_at')
+
     context = {
         'event_chips': event_chips[:MAX_EVENT_CHIPS],
         'max_event_chips': MAX_EVENT_CHIPS,
