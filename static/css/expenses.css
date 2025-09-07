@@ -91,3 +91,8 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.expense-remove-button {
+  background-color: transparent;
+  border: 0
+}

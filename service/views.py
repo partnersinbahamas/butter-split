@@ -176,6 +176,16 @@ class EventDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        expense_delete_id = request.POST.get('Delete')
+
+        if not self.object.is_user_can_manage(request):
+            raise PermissionDenied()
+
+        if expense_delete_id:
+            expense_to_delete = Expense.objects.get(id=expense_delete_id, event=self.object)
+            expense_to_delete.delete()
+
+            return HttpResponseRedirect(reverse_lazy('service:event-detail', kwargs={'pk': self.object.id}))
 
         form = ExpenseForm(data=request.POST, instance=Expense(event=self.object), event=self.object)
 

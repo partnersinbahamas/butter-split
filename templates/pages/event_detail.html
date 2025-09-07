@@ -41,6 +41,17 @@
                   {{ expense.event.currency.symbol }}
                 </span>
               </div>
+
+              {% if can_manage %}
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="text" hidden="hidden" name="Delete" value="{{ expense.id }}">
+
+                  <button class="expense-remove-button"  type="submit">
+                    <img width="20" height="20" src="{% static 'images/delete-icon.png' %}" alt="Delete icon">
+                  </button>
+                </form>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
