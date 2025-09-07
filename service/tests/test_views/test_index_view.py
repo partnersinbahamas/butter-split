@@ -52,10 +52,10 @@ class TestPublicIndexView:
         response = client.get(url)
 
         assert 'Sign in' in response.content.decode()
-        assert 'event-1' in response.content.decode()
-        assert 'event-2' in response.content.decode()
+        assert 'event-4' in response.content.decode()
         assert 'event-3' in response.content.decode()
-        assert 'event-4' not in response.content.decode()
+        assert 'event-2' in response.content.decode()
+        assert 'event-1' not in response.content.decode()
 
 
 @pytest.mark.django_db
@@ -72,16 +72,15 @@ class TestPrivateIndexView:
             password="user-password"
         )
 
-        create_events(owner=user)
-
         client.force_login(user)
+        create_events(owner=user)
 
         url = reverse_lazy('service:index')
         response = client.get(url)
 
         assert response.status_code == 200
-        assert 'event-1' in response.content.decode()
-        assert 'event-2' in response.content.decode()
+        assert 'event-4' in response.content.decode()
         assert 'event-3' in response.content.decode()
-        assert 'event-4' not in response.content.decode()
+        assert 'event-2' in response.content.decode()
+        assert 'event-1' not in response.content.decode()
         assert user.username in response.content.decode()
