@@ -1,4 +1,5 @@
-# 👋 Welcome to Butter Split
+# 👋 Welcome to [Butter Split](https://butter-split.onrender.com/)
+
 App for splitting the bills: track who ordered what and see who owes how much.
 
 <img src="static/images/butter-knife-icon.png" alt="butter/split logo" width="100" height="100">
