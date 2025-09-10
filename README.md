@@ -6,7 +6,14 @@ App for splitting the bills: track who ordered what and see who owes how much.
 <br>
 <img src="static/images/butter.png" alt="butter icon" width="100" height="100">
 
+---
 
+### Use this account to test the application:
+username: TestUser
+
+password: testuserpassword
+
+---
 ## 🗓 1. Create an event
 Every calculation starts with an event. This can be anything:  
 
@@ -35,6 +42,4 @@ Record all the expenses for the event:
 ## ✅ 4. Get a fair result
 Butter Split automatically calculates the balance, and who needs to pay back whom.  
 
-This way, all participants share the costs **fairly and transparently** — without complicated calculations or misunderstandings.  
-
-
+This way, all participants share the costs **fairly and transparently** — without complicated calculations or misunderstandings.
